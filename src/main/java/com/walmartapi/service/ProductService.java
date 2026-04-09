@@ -14,10 +14,10 @@ import java.util.Optional;
 @Service
 public class ProductService {
 
-    private  final ProductService productRepository;
+    private  final ProductRepository productRepository;
     private final CustomObjectMapper <ProductEntity, Product> productMapper;
 
-    public ProductService(ProductService productRepository, CustomObjectMapper<ProductEntity, Product> productMapper) {
+    public ProductService(ProductRepository productRepository, CustomObjectMapper<ProductEntity, Product> productMapper) {
         this.productRepository = productRepository;
         this.productMapper = productMapper;
     }
@@ -29,11 +29,6 @@ public class ProductService {
 
         return productMapper.mapToDto(savedEntity);
     }
-
-    private ProductEntity save(ProductEntity productEntity) {
-        return productRepository.save(productEntity);
-    }
-
     public Product getProductById(Long id) {
         Optional<ProductEntity> product = productRepository.findById(id);
 
@@ -42,5 +37,6 @@ public class ProductService {
         }
         return productMapper.mapToDto(product.get());
     }
+
 
 }
