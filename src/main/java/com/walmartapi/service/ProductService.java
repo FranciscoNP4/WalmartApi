@@ -37,6 +37,27 @@ public class ProductService {
         }
         return productMapper.mapToDto(product.get());
     }
+///  /////////////////////////tarea
+    public Product updateProduct(Long id, Product product) {
+        Optional<ProductEntity> existing = productRepository.findById(id);
 
+        if (existing.isEmpty()) {
+            throw new NotFound("Product not found");
+        }
 
+        ProductEntity entity = existing.get();
+        entity.setName(product.getName());
+        entity.setDescription(product.getDescription());
+        entity.setPrice(product.getPrice());
+
+        ProductEntity updated = productRepository.save(entity);
+        return productMapper.mapToDto(updated);
+    }
+
+    public void deleteProduct(Long id) {
+        if (!productRepository.existsById(id)) {
+            throw new NotFound("Product not found");
+        }
+        productRepository.deleteById(id);
+    }
 }
